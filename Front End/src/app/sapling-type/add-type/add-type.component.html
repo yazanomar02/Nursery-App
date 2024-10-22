@@ -1,0 +1,44 @@
+<form [formGroup]="addForm" (ngSubmit)="handleAddFormSubmit()">
+    <div class="mb-3">
+      <label for="name">{{'Name' | translate}}</label>
+      <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="{{'Enter name' | translate}}">
+      @if(addForm.get("name")?.errors?.["required"]){
+        <span class="text-danger">{{'Name is required' | translate}}</span>
+      }
+
+      @if(addForm.get("name")?.errors?.["minlength"]){
+        <span class="text-danger">{{'minimum length is 3 chars' | translate}}</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="description">{{'Description' | translate}}</label>
+      <input type="text" formControlName="description" class="form-control" id="description" aria-describedby="emailHelp" placeholder="{{'Enter description' | translate}}">
+      @if(addForm.get("description")?.errors?.["required"]){
+        <span class="text-danger">{{'Description is required' | translate}}</span>
+      }
+
+      @if(addForm.get("description")?.errors?.["minlength"]){
+        <span class="text-danger">{{'minimum length is 3 chars' | translate}}</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="categoryId">{{'Category' | translate}}</label>
+      <!-- <input type="text" formControlName="categoryId" class="form-control" id="categoryId" aria-describedby="emailHelp" placeholder="Enter new Category Id"> -->
+      <select formControlName="categoryId" class="form-control" id="categoryId">
+        @for (item of Categories  ; track item.id) {
+         <option [ngValue]="item.id">{{item.name}}</option>
+         
+          }
+       </select>
+      @if(addForm.get("categoryId")?.errors?.["required"]){
+        <span class="text-danger">{{'category Id is required' | translate}}</span>
+      }
+
+      @if(addForm.get("categoryId")?.errors?.["minlength"]){
+        <span class="text-danger">{{'minimum length is 3 chars' | translate}}</span>
+      }
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">{{'Add' | translate}}</button>
+</form>

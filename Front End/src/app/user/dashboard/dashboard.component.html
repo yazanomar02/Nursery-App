@@ -1,0 +1,218 @@
+<!-- @if(showdashboard === false){ -->
+<nav class="navbar navbar-expand-lg bg-light-green">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand text-white" href="#">NURSERY APP </a>
+        
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white me-5" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-globe" style="font-size: 24px;"></i>
+            </a>
+            <ul class="dropdown-menu bg-light">
+              <li><a class="dropdown-item" (click)="switchLanguage('en')">English</a></li>
+              <li><a class="dropdown-item" (click)="switchLanguage('ar')">العربية</a></li>
+           </ul>
+          </li>
+          
+          <li class="nav-item">
+              <a class="nav-link active text-white" aria-current="page"  [routerLink]="['welcome']">
+                {{'Home' | translate}}
+                <!-- <i class="fa-regular fa-house-chimney" style="font-size: 24px;"></i> -->             
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link active text-white" aria-current="page" [routerLink]="['saplinglist']">{{'Products' | translate}}</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-gear" style="font-size: 24px;"></i>
+            </a>
+            <ul class="dropdown-menu bg-light">
+              @if (isAdmin) {
+                <li><a class="dropdown-item" [routerLink]="['companys']"><i class="fa fa-circle"></i>   {{'Companies' | translate}}</a></li>
+              }
+                @if(isCompany || isAdmin){
+                  <li><a class="dropdown-item" [routerLink]="['nurseries']"><i class="fa fa-circle"></i>   {{'Nurseries' | translate}}</a></li>
+                }
+                @if(isNursery || isCompany || isAdmin){
+                  <li><a class="dropdown-item" [routerLink]="['sectors']"><i class="fa fa-circle"></i>   {{'Sectors' | translate}}</a></li>
+                  <!-- <li><a class="dropdown-item" [routerLink]="['suppliers']"><i class="fa fa-circle"></i>   Suppliers</a></li> -->
+                  <li><a class="dropdown-item" [routerLink]="['customers']"><i class="fa fa-circle"></i>   {{'Customers' | translate}}</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['saplings']"><i class="fa fa-circle"></i>   {{"Saplings" | translate}}</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['categories']"><i class="fa fa-circle"></i>   {{'Categories' | translate}}</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['types']"><i class="fa fa-circle"></i>   {{'Types' | translate}}</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['saplingcategory']"><i class="fa fa-circle"></i>   {{'Sapling Category' | translate}}</a></li>
+                  <hr class="dropdown-divider">
+                }
+            
+                
+                <li>
+                  @if(showButtonLogout) {
+                    <button class="dropdown-item btn btn-dark" (click)="onLogout()" style="width: 100%;">{{'Logout' | translate}} <i class="fa fa-arrow-right"></i></button>
+                  }
+                </li>
+            </ul>
+        </li>
+      </ul>
+
+
+            @if(showButtonAddCompany) {
+              <button type="button" class="btn btn-outline-light me-3" (click)="openModalAddCompany(templateAddCompany)">{{'Add Company' | translate}}</button>
+  
+              <ng-template #templateAddCompany>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'Add Company' | translate}}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefAddCompany?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-add-company (closeModal)="closeModalAddCompany()"></app-add-company>
+                  </div>
+              </ng-template>
+            }
+            @if(showButtonAddSapling) {
+              <button type="button" class="btn btn-outline-light me-3" (click)="openModalAddSapling(templateAddSapling)">{{'Add Sapling' | translate}}</button>
+  
+              <ng-template #templateAddSapling>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'Add Sapling' | translate}}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefAddSapling?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-add-sapling (closeModal)="closeModalAddSapling()"></app-add-sapling>
+                  </div>
+              </ng-template>
+            }
+            @if(showButtonAddCategory) {
+              <button type="button" class="btn btn-outline-light me-3" (click)="openModalAddCategory(templateAddCategory)">{{'Add Category' | translate}}</button>
+  
+              <ng-template #templateAddCategory>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'Add Category' | translate}}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefAddCategory?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-add-category (closeModal)="closeModalAddCategory()"></app-add-category>
+                  </div>
+                  
+              </ng-template>
+            }
+            @if(showButtonAddType) {
+              <button type="button" class="btn btn-outline-light me-3" (click)="openModalAddType(templateAddType)">{{"Add Type" | translate}}</button>
+  
+              <ng-template #templateAddType>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'Add Type' | translate}}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefAddType?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-add-type (closeModal)="closeModalAddType()"></app-add-type>
+                  </div>
+              </ng-template>
+            }
+            
+            @if(showButtonAddSaplingCategory) {
+              <button type="button" class="btn btn-outline-light me-3" (click)="openModalAddSaplingCategory(templateAddSaplingCategory)">{{'Add Sapling Category' | translate}}</button>
+  
+              <ng-template #templateAddSaplingCategory>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'Add Sapling Category' | translate}}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefAddSaplingCategory?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-add-saplingcategory (closeModal)="closeModalAddSaplingCategory()"></app-add-saplingcategory>
+                  </div>
+              </ng-template>
+            }
+        
+            @if(showButtonAddSaplingList) {
+             
+                <a class="nav-link active text-white" aria-current="page" [routerLink]="['cart']"><i class="fa fa-cart-arrow-down" style="font-size: 2em;"></i></a>
+            }
+  
+            @if(showButtonAddSupplier) {
+              <button type="button" class="btn btn-outline-light me-3" (click)="openModalAddSupplier(templateAddSupplier)">Add Supplier</button>
+  
+              <ng-template #templateAddSupplier>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">Add Supplier</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefAddSupplier?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-add-supplier (closeModal)="closeModalAddSupplier()"></app-add-supplier>
+                  </div>
+              </ng-template>
+            }
+  
+            @if(showButtonAddCustomer) {
+              <button type="button" class="btn btn-outline-light me-3" (click)="openModalAddCustomer(templateAddCustomer)">{{'Add Customer' | translate}}</button>
+  
+              <ng-template #templateAddCustomer>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'Add Customer' | translate}}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefAddCustomer?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-add-customer (closeModal)="closeModalAddCustomer()"></app-add-customer>
+                  </div>
+              </ng-template>
+            }
+  
+            @if(showButtonAddNursery) {
+              <button type="button" class="btn btn-outline-light me-3" (click)="openModalAddNursery(templateAddNursery)">{{'Add Nursery' | translate}}</button>
+  
+              <ng-template #templateAddNursery>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'Add Nursery' | translate}}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefAddNursery?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-add-nursary (closeModal)="closeModalAddNursery()"></app-add-nursary>
+                  </div>
+              </ng-template>
+            }
+  
+            @if(showButtonAddSector) {
+              <button type="button" class="btn btn-outline-light me-3" (click)="openModalAddSector(templateAddSector)">{{'Add Sector' | translate}}</button>
+  
+              <ng-template #templateAddSector>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'Add Sector' | translate}}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefAddSector?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-add-sector (closeModal)="closeModalAddSector()"></app-add-sector>
+                  </div>
+              </ng-template>
+            }
+
+      </div>
+    </div>
+  </nav>
+  <router-outlet></router-outlet>
+<!-- } -->
+ 
+  

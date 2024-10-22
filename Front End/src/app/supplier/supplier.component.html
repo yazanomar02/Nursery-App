@@ -1,0 +1,68 @@
+<div class="container mt-4 mb-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form class="d-flex" role="search" (ngSubmit)="searchSupplier($event)">
+        <input 
+          class="form-control me-2 glow-input" 
+          type="search" 
+          placeholder="Search" 
+          aria-label="Search" 
+          [(ngModel)]="searchWord"
+          name="searchWord">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Email</th>
+        <th scope="col">PhoneNumber</th>
+        <th scope="col">Address</th>
+        <th scope="col">Number of orders</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let supplier of suppliers; let i = index">
+            @if(supplier.isActive){
+                <th scope="row">{{ i + 1 }}</th>
+            <td>{{ supplier.firstName }}</td>
+            <td>{{ supplier.lastName }}</td>
+            <td>{{ supplier.email }}</td>
+            <td>{{ supplier.phoneNumber }}</td>
+            <td>{{ supplier.address }}</td>
+            <td>{{ supplier.orders.length }}</td>
+            <td>
+              <button type="button" class="btn btn-primary me-2" (click)="openModalUpdate(templateUpdate)">Edit</button>
+              <button type="button" class="btn btn-danger" (click)="openModalDelete(templateDelete)">Delete</button>
+
+              <ng-template #templateUpdate>
+              <div class="modal-header">
+                  <h4 class="modal-title pull-left">Modal</h4>
+                  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefUpdate?.hide()">
+                  <span aria-hidden="true" class="visually-hidden">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <app-edit-supplier [oldSupplier]="supplier" (closeModal)="closeModalUpdate()"></app-edit-supplier>
+              </div>
+              </ng-template>
+
+              <ng-template #templateDelete>
+                <div class="modal-body text-center">
+                    <p>Are you sure you want to delete the company <b>{{ supplier.firstName+" "+supplier.lastName }}</b>?</p>
+                    <button type="button" class="btn btn-success me-2" (click)="confirm(supplier.id)">Yes</button>
+                    <button type="button" class="btn btn-danger" (click)="decline()">No</button>
+                </div>
+              </ng-template>
+            </td>
+            }
+        </tr>
+    </tbody>
+</table>

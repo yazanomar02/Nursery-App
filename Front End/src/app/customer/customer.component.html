@@ -1,0 +1,62 @@
+<div class="container mt-4 mb-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form class="d-flex" role="search" (ngSubmit)="searchCustomer($event)">
+        <input 
+          class="form-control me-2 glow-input" 
+          type="search" 
+          placeholder="{{'Search' | translate}}" 
+          aria-label="Search" 
+          [(ngModel)]="searchWord"
+          name="searchWord">
+        <button class="btn btn-outline-success" type="submit">{{'Search' | translate}}</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{{'Full name' | translate}}</th>
+        <th scope="col">{{'Email' | translate}}</th>
+        <th scope="col">{{'Number of orders' | translate}}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let customer of customers; let i = index">
+          @if(customer.isActive){
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ customer.fullName }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.orders.length }}</td>
+            <td>
+              <button type="button" class="btn btn-primary me-2" (click)="openModalUpdate(templateUpdate)">{{'Edit' | translate}}</button>
+              <button type="button" class="btn btn-danger" (click)="openModalDelete(templateDelete)">{{'Delete' | translate}}</button>
+
+              <ng-template #templateUpdate>
+              <div class="modal-header">
+                  <h4 class="modal-title pull-left">{{'Edit Info Customer' | translate}}</h4>
+                  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefUpdate?.hide()">
+                  <span aria-hidden="true" class="visually-hidden">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <app-edit-customer [oldCustomer]="customer" (closeModal)="closeModalUpdate()"></app-edit-customer>
+              </div>
+              </ng-template>
+
+              <ng-template #templateDelete>
+                <div class="modal-body text-center">
+                    <p>{{'Are you sure you want to delete the customer' | translate}} <b>{{ customer.fullName }}</b>?</p>
+                    <button type="button" class="btn btn-success me-2" (click)="confirm(customer.id)">{{'Yes' | translate}}</button>
+                    <button type="button" class="btn btn-danger" (click)="decline()">{{'No' | translate}}</button>
+                </div>
+              </ng-template>
+          </td>
+          }
+        </tr>
+    </tbody>
+</table>

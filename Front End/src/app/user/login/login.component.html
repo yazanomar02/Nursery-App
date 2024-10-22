@@ -1,0 +1,30 @@
+<div class="mb-4" >
+    <h2 class="text-success">{{'Sign In' |translate}}</h2>
+    <div>
+        {{"Don't have an account" | translate}} ?
+        <a routerLink="/signup" class="text-decoration-none fw-medium text-success d-inline-block">{{'Sign up' | translate}}</a>
+    </div>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <input  class="form-control bg-body-secondary" placeholder="{{'Email' | translate}} " formControlName="email">
+            <div class="error-feedback">
+                @if(addForm.get("email")?.errors?.["required"] && hasDisplayableError('email')){
+                    <span class="text-danger">{{'Email is required' | translate}}</span>
+                }
+          </div>
+    </div>
+    <div class="mb-3">
+        <input  class="form-control bg-body-secondary" placeholder="{{'Password' | translate}}" formControlName="password">
+            <div class="error-feedback">
+                @if(addForm.get("password")?.errors?.["required"] && hasDisplayableError('password')){
+                    <span class="text-danger">{{'Password is required' | translate}}</span>
+                }
+          </div>
+    </div>
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success w-100 rounded-3">
+            {{'Sign In' | translate}}
+        </button>
+    </div>
+</form>

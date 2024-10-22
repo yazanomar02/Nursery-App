@@ -1,0 +1,59 @@
+<form [formGroup]="editForm" (ngSubmit)="handleEditFormSubmit()">
+    <div class="mb-3">
+      <label for="firstName">{{'Full Name' | translate}}</label>
+      <input type="text" formControlName="fullName" class="form-control" id="fullName" placeholder="{{'Enter new full name' | translate}}">
+      @if(editForm.get("fullName")?.errors?.["required"]){
+        <span class="text-danger">{{'Full name is required' | translate}}</span>
+      }
+
+      @if(editForm.get("fullName")?.errors?.["minlength"]){
+        <span class="text-danger">{{'minimum length is 3 chars' | translate}}</span>
+      }
+    </div>
+    
+    <!-- <div class="mb-3">
+      <label for="lastName">Last Name</label>
+      <input type="text" formControlName="lastName" class="form-control" id="lastName" placeholder="Enter new last name">
+      @if(editForm.get("lastName")?.errors?.["required"]){
+        <span class="text-danger">Last name is required</span>
+      }
+
+      @if(editForm.get("lastName")?.errors?.["minlength"]){
+        <span class="text-danger">minimum length is 3 chars</span>
+      }
+    </div> -->
+
+    <!-- <div class="mb-3">
+      <label class="form-group" for="address">Address</label>
+      <input type="text" formControlName="address" class="form-control" id="address" placeholder="Enter new address">
+      @if(editForm.get("address")?.errors?.["required"]){
+        <span class="text-danger">Address is required</span>
+      }
+
+      @if(editForm.get("address")?.errors?.["minlength"]){
+        <span class="text-danger">minimum length is 3 chars</span>
+      }
+    </div> -->
+    
+    <div class="mb-3">
+      <label class="form-group" for="email">{{'Email' | translate}}</label>
+      <input type="email" formControlName="email" class="form-control" id="email" placeholder="{{'Enter new email' | translate}}" aria-describedby="emailHelp">
+      @if(editForm.get("email")?.errors?.["required"]){
+        <span class="text-danger">{{'Email is required' | translate}}</span>
+      }
+    </div>
+
+    <!-- <div class="mb-3">
+      <label class="form-group" for="phoneNumber">Phone Number</label>
+      <input type="text" formControlName="phoneNumber" class="form-control" id="phoneNumber" placeholder="Enter new PhoneNumber">
+      @if(editForm.get("phoneNumber")?.errors?.["required"]){
+        <span class="text-danger">Phone number is required</span>
+      }
+
+      @if(editForm.get("phoneNumber")?.errors?.["minlength"]){
+        <span class="text-danger">minimum length is 8 chars</span>
+      }
+    </div> -->
+    
+    <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">{{'Save changes' | translate}}</button>
+  </form>

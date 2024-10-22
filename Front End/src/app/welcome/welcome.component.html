@@ -1,0 +1,21 @@
+<div class="container mt-5">
+    <div class="text-center">
+      <h3 class="fw-bold">{{'Welcome to Our Nursery' | translate}}!</h3>
+      <p class="lead">{{'Discover a world of fresh saplings ready to grow in your garden. Happy planting' | translate}}!</p>
+
+      <div class="mt-4"></div>
+
+      <!-- زر لعرض الشتول -->
+       @if(isLogging){
+        <a class="btn btn-success w-100 rounded-pill shadow" [routerLink]="['/saplinglist']">
+            {{'Show Our Saplings' | translate}}
+          </a>
+       }@else{
+        <a class="btn btn-success w-100 rounded-pill shadow" [routerLink]="['/signin']">
+            SignIn
+          </a>
+       }
+
+      
+    </div>
+</div>

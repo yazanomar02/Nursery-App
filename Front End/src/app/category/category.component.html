@@ -1,0 +1,75 @@
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form class="d-flex" role="search" (ngSubmit)="searchCategory($event)">
+          <input 
+            class="form-control me-2 glow-input" 
+            type="search" 
+            placeholder="{{'Search' | translate}}" 
+            aria-label="Search" 
+            [(ngModel)]="searchWord"
+            name="searchWord">
+          <button class="btn btn-outline-success" type="submit">{{'Search' | translate}}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{{'Name' | translate}}</th>
+          <th scope="col">{{'Types' | translate}}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let category of categories; let i = index">
+              @if(category.isActive){
+                  <th scope="row">{{ i + 1 }}</th>
+              <td>{{ category.name }}</td>
+              <td>
+                <div class="dropdown d-inline-block">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{'Show list' | translate}}
+                  </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      @for (type of category.saplingTypes; track type.id) {
+                      <li>
+                        <a class="dropdown-item" href="/nurseries">{{ type.name }}</a>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </td>
+              <td>
+                  <button type="button" class="btn btn-primary me-2" (click)="openModalUpdate(templateUpdate)">{{'Edit' | translate}}</button>
+                  <button type="button" class="btn btn-danger" (click)="openModalDelete(templateDelete)">{{'Delete' | translate}}</button>
+   
+                  <ng-template #templateUpdate>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{'Edit Info category' | translate}}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefUpdate?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-edit-category [oldCategory]="category" (closeModal)="closeModalUpdate()"></app-edit-category>
+                  </div>
+                  </ng-template>
+  
+                  <ng-template #templateDelete>
+                  <div class="modal-body text-center">
+                      <p>{{'Are you sure you want to delete the category' | translate}} <b>{{ category.name }}</b>?</p>
+                      <button type="button" class="btn btn-success me-2" (click)="confirm(category.id)">{{'Yes' | translate}}</button>
+                      <button type="button" class="btn btn-danger" (click)="decline()">{{'No' | translate}}</button>
+                  </div>
+                  </ng-template>
+              </td> 
+              }
+          </tr>
+      </tbody>
+  </table>

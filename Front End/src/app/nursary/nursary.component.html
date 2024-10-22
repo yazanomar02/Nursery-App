@@ -1,0 +1,77 @@
+<div class="container mt-4 mb-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form class="d-flex" role="search" (ngSubmit)="searchNursary($event)">
+        <input 
+          class="form-control me-2 glow-input" 
+          type="search" 
+          placeholder="{{ 'Search' | translate }}" 
+          aria-label="Search" 
+          [(ngModel)]="searchWord"
+          name="searchWord">
+        <button class="btn btn-outline-success" type="submit">{{ 'Search' | translate }}</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{{ 'Name' | translate }}</th>
+        <th scope="col">{{ 'Address' | translate }}</th>
+        <th scope="col">{{ 'Company name' | translate }}</th>
+        <th scope="col">{{ 'Categories' | translate }}</th>
+        <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let nursary of nursaries; let i = index">
+          @if(nursary.isActive){
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ nursary.name }}</td>
+              <td>{{ nursary.address }}</td>
+              <td>{{ companyNames[nursary.companyId] || 'Loading...' | translate }}</td>
+              <td>
+                <div class="dropdown d-inline-block">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ 'Show list' | translate }}
+                  </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      @for (category of nursary.categories; track category.id) {
+                      <li>
+                        <a class="dropdown-item" href="/categories">{{ category.name }}</a>
+                      </li>
+                    }
+                    </ul>
+                </div>
+              </td>
+              <td>
+                  <button type="button" class="btn btn-primary me-2" (click)="openModalUpdate(templateUpdate)">{{ 'Edit' | translate }}</button>
+                  <button type="button" class="btn btn-danger" (click)="openModalDelete(templateDelete)">{{ 'Delete' | translate }}</button>
+
+                  <ng-template #templateUpdate>
+                  <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{ 'Edit Info Nursery' | translate }}</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefUpdate?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <app-edit-nursary [oldNursary]="nursary" (closeModal)="closeModalUpdate()"></app-edit-nursary>
+                  </div>
+                  </ng-template>
+
+                  <ng-template #templateDelete>
+                  <div class="modal-body text-center">
+                      <p>{{ 'Are you sure you want to delete the nursery' | translate }} <b>{{ nursary.name }}</b>?</p>
+                      <button type="button" class="btn btn-success me-2" (click)="confirm(nursary.id)">{{ 'Yes' | translate }}</button>
+                      <button type="button" class="btn btn-danger" (click)="decline()">{{ 'No' | translate }}</button>
+                  </div>
+                  </ng-template>
+              </td>
+          }
+      </tr>
+  </tbody>
+</table>

@@ -1,0 +1,82 @@
+<form [formGroup]="editForm" (ngSubmit)="handleEditFormSubmit()">
+  
+    <div class="mb-3">
+      <label for="birthDate">{{'Birth Date' | translate}}</label>
+      <input type="date" formControlName="birthDate" class="form-control" id="birthDate" placeholder="{{'Enter new birth date' | translate}}">
+      @if(editForm.get("birthDate")?.errors?.["required"]){
+        <span class="text-danger">{{'Birth date is required' | translate}}</span>
+      }
+    </div>
+  
+    <div class="mb-3">
+      <label for="sellDate">{{'Sell Date' | translate}}</label>
+      <input type="date" formControlName="sellDate" class="form-control" id="sellDate" placeholder="{{'Enter new sell date' | translate}}">
+      
+      @if(editForm.get("sellDate")?.errors?.["required"]){
+        <span class="text-danger">{{'Sell date is required' | translate}}</span>
+      }
+
+    </div>
+  
+    <div class="mb-3">
+      <label for="buyPrice">{{'Buy Price' | translate}}</label>
+      <input type="number" formControlName="buyPrice" class="form-control" id="buyPrice" placeholder="{{'Enter new buy price' | translate}}">
+      @if(editForm.get("buyPrice")?.errors?.["required"]){
+        <span class="text-danger">{{'Buy price is required' | translate}}</span>
+      }
+      @if(editForm.get("buyPrice")?.errors?.["minlength"]){
+        <span class="text-danger">{{'Buy price must be greater than or equal to 0' | translate}}</span>
+      }
+
+    </div>
+  
+    <div class="mb-3">
+      <label for="sellPrice">{{'Sell Price' | translate}}</label>
+      <input type="number" formControlName="sellPrice" class="form-control" id="sellPrice" placeholder="{{'Enter new sell price' | translate}}">
+      @if(editForm.get("sellPrice")?.errors?.["required"]){
+        <span class="text-danger">{{'Sell price is required' | translate}}</span>
+      }
+      @if(editForm.get("sellPrice")?.errors?.["minlength"]){
+        <span class="text-danger">{{'Sell price must be greater than or equal to 0' | translate}}</span>
+      }
+    </div>
+  
+    <div class="mb-3">
+      <label for="amount">{{'Amount' | translate}}</label>
+      <input type="number" formControlName="amount" class="form-control" id="amount" placeholder="{{'Enter new amount' | translate}}">
+      @if(editForm.get("amount")?.errors?.["required"]){
+        <span class="text-danger">{{'Amount is required' | translate}}</span>
+      }
+      @if(editForm.get("amount")?.errors?.["minlength"]){
+        <span class="text-danger">{{'Amount must be greater than or equal to 1' | translate}}</span>
+      }
+    </div>
+  
+     <div class="mb-3">
+      <label for="isImported">{{'Is Imported' | translate}}</label>
+      <select formControlName="isImported" class="form-control" id="isImported">
+        <option [ngValue]="true">{{'Yes' | translate}}</option>
+        <option [ngValue]="false">{{'No' | translate}}</option>
+      </select>
+      @if(editForm.get("isImported")?.errors?.["required"]){
+        <span class="text-danger">{{'This field is required' | translate}}</span>
+      }
+    </div>
+    
+    <div class="mb-3">
+      <label for="saplingsCategoryId">{{'Saplings Category' | translate}}</label>
+      <!-- <input type="text" formControlName="saplingsCategoryId" class="form-control" id="saplingsCategoryId" placeholder="Enter saplings category"> -->
+      <select formControlName="saplingsCategoryId" class="form-control" id="saplingsCategoryId">
+        @for (item of saplingCategories  ; track item.id) {
+         <option [ngValue]="item.id">{{item.name}}</option>
+         
+          }
+       </select>
+      @if(editForm.get("saplingsCategoryId")?.errors?.["required"]){
+        <span class="text-danger">{{'Saplings category is required' | translate}}</span>
+      }
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">{{'Save changes' | translate}}</button>
+  </form>
+  

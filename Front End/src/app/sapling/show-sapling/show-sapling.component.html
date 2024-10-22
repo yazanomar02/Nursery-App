@@ -1,0 +1,73 @@
+<div class="container mt-4 mb-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form class="d-flex" role="search" (ngSubmit)="searchSapling($event)">
+        <input 
+          class="form-control me-2 glow-input" 
+          type="search" 
+          placeholder="{{'Search' | translate}}" 
+          aria-label="Search" 
+          [(ngModel)]="searchWord"
+          name="searchWord">
+        <button class="btn btn-outline-success" type="submit">{{'Search' | translate}}</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-4 mb-4" *ngFor="let sapling of saplings; let i = index">
+      <div class="card h-100 rounded-lg border-0" 
+           style="transition: transform 0.3s ease, box-shadow 0.3s ease;" 
+           (mouseenter)="toggleHover(true, i)" 
+           (mouseleave)="toggleHover(false, i)"
+           [ngStyle]="{ 
+             'transform': hoverIndex === i ? 'translateY(-10px)' : 'none', 
+             'box-shadow': hoverIndex === i ? '0 20px 40px rgba(0, 150, 0, 0.6), 0 10px 20px rgba(0, 150, 0, 0.4)' : '0 5px 15px rgba(0, 0, 0, 0.1)' 
+           }">
+        
+        <!-- صورة المنتج -->
+        <div class="card-img-top overflow-hidden rounded-top">
+          <img [src]="sapling.saplingImage" 
+               alt="{{ sapling.name }}" 
+               class="img-fluid rounded-top" 
+               style="width:100%; height: 300px; object-fit: cover; transition: transform 0.3s ease, filter 0.3s ease;" 
+               [ngStyle]="{ 
+                 'transform': hoverIndex === i ? 'scale(1.05)' : 'none', 
+                 'filter': hoverIndex === i ? 'brightness(1.1)' : 'brightness(1)' 
+               }">
+        </div>
+
+        <!-- معلومات المنتج -->
+        <div class="card-body text-center">
+          <h5 class="card-title text-primary mb-3" style="font-weight: bold; font-size: 1.25rem;">{{ sapling.name }}</h5>
+          <h6 class="card-subtitle text-muted mb-2" style="font-size: 1.1rem;">{{ getNurseryName(sapling) }}</h6>
+          <p class="card-text text-muted mb-2">{{ sapling.isImported ? 'مستورد' : 'غير مستورد' }}</p>
+          <p class="card-text text-success fw-bold mb-3" style="font-size: 1.2rem;">{{ sapling.sellPrice | currency : 'USD': 'symbol' : '1.2-2' }}</p>
+          
+          <!-- حقل الكمية -->
+          <div class="d-flex justify-content-center align-items-center mb-3">
+            <button class="btn btn-sm btn-outline-success me-2 rounded-pill" 
+                    (click)="decreaseQuantity(sapling)" [disabled]="sapling.quantity === 1">-</button>
+            <input type="text" [(ngModel)]="sapling.quantity" 
+                   class="form-control text-center border-0 shadow-sm rounded-pill" 
+                   style="width: 60px; background-color: #e9ecef;" readonly>
+            <button class="btn btn-sm btn-outline-success ms-2 rounded-pill" 
+                    (click)="increaseQuantity(sapling)" [disabled]="sapling.quantity >= sapling.amount">+</button>
+          </div>
+          
+          <!-- زر إضافة إلى السلة -->
+          <button class="btn btn-success w-100 rounded-pill shadow" 
+                  (click)="addToCart(sapling)"
+                  style="font-size: 1rem; font-weight: bold;">
+            {{'Add To Cart' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

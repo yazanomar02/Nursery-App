@@ -1,0 +1,60 @@
+<div class="mb-4" >
+    <h2 class="text-success">{{"Sign up" | translate}}</h2>
+    <div>
+        {{'Already have an account' | translate}} ?
+        <a routerLink="/signin" class="text-decoration-none fw-medium text-success d-inline-block">{{"Sign in" | translate}}</a>
+    </div>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <input  class="form-control bg-body-secondary" placeholder="{{'Full Name' | translate}}" formControlName="fullName">
+            <div class="error-feedback">
+                @if(addForm.get("fullName")?.errors?.["required"] && hasDisplayableError('fullName')){
+                    <span class="text-danger">{{'Full Name is required' | translate}}</span>
+                }
+          </div>
+    </div>
+    
+    <div class="mb-3">
+        <input  class="form-control bg-body-secondary" placeholder="{{'Email' | translate}} " formControlName="email">
+            <div class="error-feedback">
+                @if(addForm.get("email")?.errors?.["required"] ){
+                    <span class="text-danger">{{'Email is required' | translate}}</span>
+                }
+                <!-- @if(hasDisplayableError('email')){
+                    <span class="text-danger">Enter a valied Email</span>
+                } -->
+          </div>
+    </div>
+    <div class="mb-3">
+        <input  class="form-control bg-body-secondary" placeholder="{{'Password' | translate}}" formControlName="password">
+            <div class="error-feedback">
+                @if(addForm.get("password")?.errors?.["required"] ){
+                    <span class="text-danger">{{'Password is required' | translate}}</span>
+                }
+                @if(addForm.get("password")?.errors?.["minlength"] ){
+                    <span class="text-danger">{{'At least 6 characters required' | translate}}</span>
+                }
+                <!-- @if(hasDisplayableError('password')){
+                    <span class="text-danger">{{'Enter a valied Password' | translate}}</span>
+                } -->
+          </div>
+    </div>
+
+    <div class="mb-3">
+        <input  class="form-control bg-body-secondary" placeholder="{{'Confirm Password' | translate}}" formControlName="confirmPassword">
+        <div class="error-feedback">
+            @if(hasDisplayableError('confirmPassword') && addForm.get("password")?.errors?.["passwordMatchValidator"]  ){
+                <span class="text-danger">{{'Password is required' | translate}}</span>
+            }
+            
+      </div>
+    </div>
+    
+       <div class="mt-4">
+        <button type="submit" class="btn btn-success w-100 rounded-3">
+            {{'Register' | translate}}
+        </button>
+    </div>
+  </form>
+

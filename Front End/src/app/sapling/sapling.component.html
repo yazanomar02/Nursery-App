@@ -1,0 +1,82 @@
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form class="d-flex" role="search" (ngSubmit)="searchSapling($event)">
+          <input 
+            class="form-control me-2 glow-input" 
+            type="search" 
+            placeholder="{{'Search' | translate}}" 
+            aria-label="Search" 
+            [(ngModel)]="searchWord"
+            name="searchWord">
+          <button class="btn btn-outline-success" type="submit">{{'Search' | translate}}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{{'Sapling Name' | translate}}</th>
+          <!-- <th scope="col">Nursery Name</th> -->
+          <th scope="col">{{"Bar Code" | translate}}</th>
+          <th scope="col">{{'Birth Date' | translate}}</th>
+          <th scope="col">{{'Sell Date' | translate}}</th>
+          <th scope="col">{{'Buy Price' | translate}}</th>
+          <th scope="col">{{'Sell Price' | translate}}</th>
+          <th scope="col">{{'Amount' | translate}}</th>
+          <th scope="col">{{'isImported' | translate}}</th>
+          @if(showNurseryId) {
+            <th scope="col">{{'Nursery Name' | translate}}</th>
+          }
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let sapling of saplings; let i = index">
+            <td hidden onchange="gitNurseryName(sapling.id)"></td>
+            @if(sapling.isActive){
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ sapling.name }}</td>
+              <!-- <td>{{ sapling.nursery.name }}</td> -->
+              <td>{{ sapling.barCode }}</td>
+              <td>{{ sapling.birthDate | date:'yyyy-MM-dd' }}</td>
+              <td>{{ sapling.sellDate | date:'yyyy-MM-dd' }}</td>              
+              <td>{{ sapling.buyPrice | currency : 'USD': 'symbol' : '1.2-2' }}</td>
+              <td>{{ sapling.sellPrice | currency : 'USD': 'symbol' : '1.2-2' }}</td>
+              <td>{{ sapling.amount }}</td>
+              <td>{{ sapling.isImported }}</td>
+              @if(showNurseryId) {
+                <td>{{nurseryNames[sapling.nurseryId] || 'Loading...'}}</td>
+              }
+              <td>
+                <button type="button" class="btn btn-primary me-2" (click)="openModalUpdate(templateUpdate)">{{'Edit' | translate}}</button>
+                <button type="button" class="btn btn-danger" (click)="openModalDelete(templateDelete)">{{'Delete' | translate}}</button>
+  
+                <ng-template #templateUpdate>
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left">{{'Edit Info Sapling' | translate}}</h4>
+                    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRefUpdate?.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <app-edit-sapling [oldSapling]="sapling" (closeModal)="closeModalUpdate()"></app-edit-sapling>
+                </div>
+                </ng-template>
+  
+                <ng-template #templateDelete>
+                  <div class="modal-body text-center">
+                      <p>{{'Are you sure you want to delete the sapling' | translate}} <b>{{ sapling.barCode }}</b>?</p>
+                      <button type="button" class="btn btn-success me-2" (click)="confirm(sapling.id)">{{'Yes' | translate}}</button>
+                      <button type="button" class="btn btn-danger" (click)="decline()">{{'No' | translate}}</button>
+                  </div>
+                </ng-template>
+            </td>
+            }
+          </tr>
+      </tbody>
+  </table>
+  

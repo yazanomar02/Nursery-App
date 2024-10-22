@@ -1,0 +1,78 @@
+<form [formGroup]="addForm" (ngSubmit)="handleAddFormSubmit()">
+    <div class="mb-3">
+      <label for="name">{{'Name' | translate}}</label>
+      <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="{{'Enter name' | translate}}">
+      @if(addForm.get("name")?.errors?.["required"]){
+        <span class="text-danger">{{'Name is required' | translate}}</span>
+      }
+
+      @if(addForm.get("name")?.errors?.["minlength"]){
+        <span class="text-danger">{{'minimum length is 3 chars' | translate}}</span>
+      }
+
+    </div>
+    <div class="mb-3">
+      <label class="form-group" for="email">{{"Email" | translate}}</label>
+      <input type="email" formControlName="email" class="form-control" id="email" placeholder="{{'Enter email' | translate}}">
+      @if(addForm.get("email")?.errors?.["required"]){
+        <span class="text-danger">{{'Email is required' | translate}}</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-group" for="password">{{'Password' | translate}}</label>
+      <input placeholder="{{'Enter Password' | translate}}" class="form-control" id="password" formControlName="password">
+      @if(addForm.get("password")?.errors?.["required"] ){
+        <span class="text-danger">{{'Password is required' | translate}}</span>
+      }
+      @if(addForm.get("password")?.errors?.["minlength"] ){
+          <span class="text-danger">{{'At least 6 characters required' | translate}}</span>
+      }
+      @if( hasDisplayableError('password')){
+          <span class="text-danger">{{'Enter a valied Password' | translate}}</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="address">{{'Address' | translate}}</label>
+      <input type="text" formControlName="address" class="form-control" id="address" placeholder="{{'Enter address' | translate}}">
+      @if(addForm.get("address")?.errors?.["required"]){
+        <span class="text-danger">{{'Address is required' | translate}}</span>
+      }
+      @if(addForm.get("address")?.errors?.["minlength"]){
+        <span class="text-danger">{{'minimum length is 3 chars' | translate}}</span>
+      }
+    </div>
+
+    <div class="mb-3">
+        <label for="companyId">{{'Company' | translate}}</label>
+        <select formControlName="companyId" class="form-control" id="companyId">
+          @if(companyId) {
+            <option [ngValue]="companyId">{{'This company' | translate}}</option>
+          }
+          @else {
+            @for (company of companies ; track company.id) {
+              <option [ngValue]="company.id">{{company.name}}</option>
+             }
+          }
+         </select>
+        @if(addForm.get("companyId")?.errors?.["required"]){
+          <span class="text-danger">{{'Company is required' | translate}}</span>
+        }
+    </div>
+
+    <!-- <div class="mb-3">
+      <label for="CategoryIds">Categories</label>
+      <select formControlName="CategoryIds" class="form-control" id="CategoryIds" multiple>
+        @for (category of categories; track category.id) {
+          <option [ngValue]="category.id">{{category.name}}</option>
+        }
+      </select>
+      @if(addForm.get("CategoryIds")?.errors?.["required"]){
+        <span class="text-danger"> At least one category is required</span>
+      }
+    </div> -->
+    
+    <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">{{'Add' | translate}}</button>
+  </form>
+

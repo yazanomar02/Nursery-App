@@ -1,0 +1,39 @@
+<form [formGroup]="editForm" (ngSubmit)="handleEditFormSubmit()">
+    <div class="mb-3">
+      <label for="name">{{'Name' | translate}}</label>
+      <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="{{'Enter new name' | translate}}">
+      @if(editForm.get("name")?.errors?.["required"]){
+        <span class="text-danger">{{'Name is required' | translate}}</span>
+      }
+
+      @if(editForm.get("name")?.errors?.["minlength"]){
+        <span class="text-danger">{{'minimum length is 3 chars' | translate}}</span>
+      }
+    </div>
+    
+    <div class="mb-3">
+      <label for="address">{{'Address' | translate}}</label>
+      <input type="text" formControlName="address" class="form-control" id="address" placeholder="{{'Enter new address' | translate}}">
+      @if(editForm.get("address")?.errors?.["required"]){
+        <span class="text-danger">{{'Address is required' | translate}}</span>
+      }
+
+      @if(editForm.get("address")?.errors?.["minlength"]){
+        <span class="text-danger">{{'minimum length is 3 chars' | translate}}</span>
+      }
+    </div>
+
+    <div class="mb-3">
+        <label for="companyId">{{'Company' | translate}}</label>
+        <select formControlName="companyId" class="form-control" id="companyId">
+          @for (company of companies ; track company.id) {
+           <option [ngValue]="company.id">{{company.name}}</option>
+            }
+         </select>
+        @if(editForm.get("companyId")?.errors?.["required"]){
+          <span class="text-danger">{{'Company is required' | translate}}</span>
+        }
+    </div>
+    
+    <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">{{'Save changes' | translate}}</button>
+  </form>

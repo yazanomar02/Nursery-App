@@ -1,0 +1,13 @@
+.table-fade {
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.table-fade.loading {
+    opacity: 0;
+}
+
+.glow-input:focus {
+  outline: none; /* إزالة الإطار الافتراضي */
+  box-shadow: 0 0 10px 2px rgba(40, 167, 69, 0.7); /* توهج أخضر */
+}

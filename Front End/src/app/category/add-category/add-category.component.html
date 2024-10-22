@@ -1,0 +1,14 @@
+<form [formGroup]="addForm" (ngSubmit)="handleAddFormSubmit()">
+    <div class="mb-3">
+      <label for="name">{{'Name' | translate}}</label>
+      <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="{{'Enter name' | translate}}">
+      @if(addForm.get("name")?.errors?.["required"]){
+        <span class="text-danger">{{'Name is required' | translate}}</span>
+      }
+      @if(addForm.get("name")?.errors?.["minlength"]){
+        <span class="text-danger">{{'minimum length is 3 chars' | translate}}</span>
+      }
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">{{'Add' | translate}}</button>
+  </form>
+

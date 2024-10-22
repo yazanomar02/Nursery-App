@@ -1,0 +1,41 @@
+<form [formGroup]="addForm" (ngSubmit)="handleAddFormSubmit()">
+    <div class="mb-3">
+      <label for="number">{{'Number' | translate}}</label>
+      <input type="text" formControlName="number" class="form-control" id="number" aria-describedby="emailHelp" placeholder="{{'Enter number' | translate}}">
+      @if(addForm.get("number")?.errors?.["required"]){
+        <span class="text-danger">{{'Number is required' | translate}}</span>
+      }
+    </div>
+    
+    <div class="mb-3">
+      <label for="capacity">{{'Capacity' | translate}}</label>
+      <input type="text" formControlName="capacity" class="form-control" id="capacity" placeholder="{{'Enter capacity' | translate}}">
+      @if(addForm.get("capacity")?.errors?.["required"]){
+        <span class="text-danger">{{'Capacity is required' | translate}}</span>
+      }
+    </div>
+
+    <div class="mb-3">
+        <label for="nurseryId">{{'Nursery' | translate}}</label>
+        <select formControlName="nurseryId" class="form-control" id="nurseryId">
+          @if(nurseryId) {
+            <option [ngValue]="nurseryId">{{'This nursary' | translate}}</option>
+          }
+          @else if (companyId) {
+            @for (nursery of nurseries ; track nursery.id) {
+              <option [ngValue]="nursery.id">{{nursery.name}}</option>
+            }
+          }
+          @else {
+            @for (nursery of nurseries ; track nursery.id) {
+              <option [ngValue]="nursery.id">{{nursery.name}}</option>
+            }
+          }
+         </select>
+        @if(addForm.get("nurseryId")?.errors?.["required"]){
+          <span class="text-danger">{{'Nursery is required' | translate}}</span>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">{{'Add' | translate}}</button>
+  </form>

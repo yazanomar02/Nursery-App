@@ -1,0 +1,10 @@
+.animated-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .animated-card:hover {
+    transform: translateY(-5px) scale(1.02); /* رفع الكرت وتكبيره قليلاً */
+    box-shadow: 0 10px 20px rgba(76, 175, 80, 0.5); /* ظل أخضر */
+    border: 2px solid #388E3C; /* لون الحدود الأخضر الأوضح */
+  }
+  
